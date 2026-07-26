@@ -1,0 +1,54 @@
+.button-user {
+    background-color: var(--color-primary);
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-user:hover {
+    background-color: #0070A480;
+    color: white;
+}
+
+.button-admin {
+    background-color: white;
+    color: var(--color-primary);
+    font-weight: 500;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-admin:hover {
+    background-color: white;
+    color: #0070A480;
+
+    svg path {
+        fill: #0070A480;
+    }
+}
+
+.mainpage-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    color: var(--color-primary);
+    font-size: 24px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 40px;
+    gap: 8px;
+}
+
+@media (max-width: 768px) {
+    .mainpage-header {
+        padding: 32px;
+        font-size: 18px;
+    }
+}
