@@ -6,14 +6,17 @@ import { User, Lock, Eye, EyeOff } from 'lucide-react';
 
 
 
-export default function AdminLogin() {
+export default function CreateAdminAccount() {
     const router = useRouter();
+    const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
-    const navigateToCreateAdminAccount = () => {
-        router.push('/admin/create-account');
+    const navigateToLogin = () => {
+        router.push('/admin/login');
     };
 
     return (
@@ -33,8 +36,19 @@ export default function AdminLogin() {
             </div>
             <div className={styles['page-right']}>
                 <div className={styles['content']}>
-                    <span className={styles['login-text']}>Login</span>
+                    <span className={styles['login-text']}>Sign Up</span>
                     <div className="flex flex-col gap-4">
+                        <span className="md:text-xl text-base">Full name</span>
+                        <div className="relative">
+                            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+
+                            <input
+                                placeholder="Enter your Full Name"
+                                value={fullName}
+                                onChange={(e) => setFullName(e.target.value)}
+                                className="pl-12 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 w-full"
+                            />
+                        </div>
                         <span className="md:text-xl text-base">Email</span>
                         <div className="relative">
                             <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -70,12 +84,35 @@ export default function AdminLogin() {
                                 />
                             )}
                         </div>
-                        <button className={styles['login-button']}>Login as Administrator</button>
+                        <span className="md:text-xl text-base">Confirm Password</span>
+                        <div className="relative">
+                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+
+                            <input
+                                placeholder="Confirm your Password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                type={confirmPasswordVisible ? "text" : "password"}
+                                className="pl-12 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 w-full"
+                            />
+                            {confirmPasswordVisible ? (
+                                <EyeOff
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                                    onClick={() => setConfirmPasswordVisible(false)}
+                                />
+                            ) : (
+                                <Eye
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                                    onClick={() => setConfirmPasswordVisible(true)}
+                                />
+                            )}
+                        </div>
+                        <button className={styles['login-button']}>Create an account</button>
 
 
                         <div className={styles['dont-have-account']}>
-                            <span>Don't have an account? </span>
-                            <span className={styles['link']} onClick={navigateToCreateAdminAccount}>Create an account</span>
+                            <span>Already have an account? </span>
+                            <span className={styles['link']} onClick={navigateToLogin}>Login</span>
                         </div>
                     </div>
                 </div>
