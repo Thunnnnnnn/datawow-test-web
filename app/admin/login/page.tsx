@@ -77,10 +77,6 @@ export default function AdminLogin() {
                             <span>Don't have an account? </span>
                             <span className={styles['link']} onClick={navigateToCreateAdminAccount}>Create an account</span>
                         </div>
-
-                        {/* <div className="space-y-4">
-                            
-                        </div> */}
                     </div>
                 </div>
             </div>
