@@ -74,6 +74,10 @@
             margin-block: 20px;
         }
 
+        .login-button:hover {
+            background-color: #1692EC80;
+        }
+
         .dont-have-account {
             font-size: 20px;
             display: flex;
@@ -83,6 +87,10 @@
             .link {
                 color: #1692EC;
                 cursor: pointer;
+            }
+
+            .link:hover {
+                text-decoration: underline;
             }
         }
 
