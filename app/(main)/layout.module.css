@@ -1,0 +1,41 @@
+.menu {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 8px;
+    gap: 8px;
+
+    .menu-item {
+        padding: 8px 8px;
+        font-size: 24px;
+        cursor: pointer;
+        gap: 12px;
+        display: flex;
+        align-items: center;
+
+        &.focus {
+            border-radius: 8px;
+            background: #EAF5F9;
+        }
+    }
+}
+
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.content {
+    /* flex: 1; */
+    padding: 48px 32px;
+    /* background-color: #F5F5F5; */
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+}
