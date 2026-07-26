@@ -18,17 +18,23 @@ export default function MainLayout({
                 <div className="flex flex-col gap-4">
                     <span className="font-semibold ms-3 my-8" style={{ fontSize: '40px' }}>Admin</span>
                     <div className={styles['menu']}>
-                        <div className={`${styles['menu-item']} ${pathname === '/admin' ? styles['focus'] : ''}`}>
+                        <div className={`${styles['menu-item']} ${pathname === '/admin' || pathname === '/user' ? styles['focus'] : ''}`}>
                             <House />
                             Home
                         </div>
-                        <div className={`${styles['menu-item']} ${pathname === '/admin/history' ? styles['focus'] : ''}`}>
-                            <Inbox />
-                            History
-                        </div>
+                        {
+                            pathname.split('/')[1] === 'admin' && (
+                                <div className={`${styles['menu-item']} ${pathname === '/admin/history' ? styles['focus'] : ''}`}>
+                                    <Inbox />
+                                    History
+                                </div>
+                            )
+                        }
                         <div className={styles['menu-item']}>
                             <RefreshCw />
-                            Switch to user
+                            {
+                                pathname.split('/')[1] === 'admin' ? 'Switch to user' : 'Switch to admin'
+                            }
                         </div>
                     </div>
                 </div>
