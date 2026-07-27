@@ -1,0 +1,53 @@
+'use client';
+import styles from './AdminPage.module.css';
+import { Medal, User, CircleX, Menu } from 'lucide-react';
+import { useState } from 'react';
+import OverViewPage from './_component/OverViewPage';
+import CreatePage from './_component/CreatePage';
+
+export default function Admin() {
+    const [activeTab, setActiveTab] = useState('overview');
+
+    return (
+        <div className="w-full">
+            <div className="flex flex-col md:flex-row justify-between gap-4">
+                <div className={styles['card']} style={{ background: '#0070A4' }}>
+                    <User className="w-10 h-10 text-white" />
+                    <span className="text-white lg:text-2xl text-lg">Total of seats</span>
+                    <span className="text-white lg:text-6xl text-4xl">500</span>
+                </div>
+                <div className={styles['card']} style={{ background: '#00A58B' }}>
+                    <Medal className="w-10 h-10 text-white" />
+                    <span className="text-white lg:text-2xl text-lg">Reserve</span>
+                    <span className="text-white lg:text-6xl text-4xl">120</span>
+                </div>
+                <div className={styles['card']} style={{ background: '#F96464' }}>
+                    <CircleX className="w-10 h-10 text-white" />
+                    <span className="text-white lg:text-2xl text-lg">Cancel</span>
+                    <span className="text-white lg:text-6xl text-4xl">12</span>
+                </div>
+            </div>
+
+            <div className={styles['tab']}>
+                <span className={`${styles['tab-item']} ${activeTab === 'overview' ? styles['focus'] : ''}`} onClick={() => setActiveTab('overview')}>
+                    Overview
+                </span>
+                <span className={`${styles['tab-item']} ${activeTab === 'create' ? styles['focus'] : ''}`} onClick={() => setActiveTab('create')}>
+                    Create
+                </span>
+            </div>
+
+            <div className={styles['content']}>
+                {activeTab === 'overview' ? (
+                    <OverViewPage />
+                ) : (
+                    <CreatePage />
+                )}
+            </div>
+
+            <button className={styles['menu-button']}>
+                <Menu className="w-6 h-6" />
+            </button>
+        </div>
+    );
+}
