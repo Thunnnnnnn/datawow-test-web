@@ -1,5 +1,5 @@
 import api from './api';
-import { UserResponse, CreateUserRequest } from '../model/user';
+import { UserResponse, CreateUserRequest, UpdateUserRequest } from '../model/user';
 import { IResponse } from '../model/response';
 
 export const getUsers = async (): Promise<IResponse<UserResponse[]>> => {
@@ -32,7 +32,7 @@ export const createUser = async (userData: CreateUserRequest): Promise<IResponse
     }
 };
 
-export const updateUser = async (userId: number, userData: Partial<CreateUserRequest>): Promise<IResponse<UserResponse>> => {
+export const updateUser = async (userId: number, userData: Partial<UpdateUserRequest>): Promise<IResponse<UserResponse>> => {
     try {
         const response = await api.put(`/users/${userId}`, userData);
         return response.data;
