@@ -5,7 +5,7 @@ import { useState } from 'react';
 import OverViewPage from './_component/OverViewPage';
 import CreatePage from './_component/CreatePage';
 
-export default function Admin() {
+export default function AdminPage() {
     const [activeTab, setActiveTab] = useState('overview');
 
     return (

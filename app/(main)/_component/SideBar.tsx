@@ -15,7 +15,7 @@ export default function SideBar() {
     return (
         <div className={styles['sidebar']}>
             <div className="flex flex-col gap-4">
-                <span className="font-semibold ms-3 mt-12 mb-2" style={{ fontSize: '40px' }}>Admin</span>
+                <span className="font-semibold ms-3 mt-12 mb-2" style={{ fontSize: '40px' }}>{pathname.split('/')[1] === 'admin' ? 'Admin' : 'User'}</span>
                 <div className={styles['menu']}>
                     <div className={`${styles['menu-item']} ${pathname === '/admin' || pathname === '/user' ? styles['focus'] : ''}`} onClick={() => navigateTo(pathname.split('/')[1] === 'admin' ? '/admin' : '/user')}>
                         <House />
