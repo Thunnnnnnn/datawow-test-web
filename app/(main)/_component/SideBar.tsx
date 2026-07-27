@@ -3,21 +3,27 @@
 import styles from '../layout.module.css';
 import { House, Inbox, RefreshCw, LogOut } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+
 export default function SideBar() {
     const pathname = usePathname();
-    
+    const router = useRouter();
+    const navigateTo = (path: string) => {
+        router.push(path);
+    };
+
     return (
         <div className={styles['sidebar']}>
             <div className="flex flex-col gap-4">
                 <span className="font-semibold ms-3 mt-12 mb-2" style={{ fontSize: '40px' }}>Admin</span>
                 <div className={styles['menu']}>
-                    <div className={`${styles['menu-item']} ${pathname === '/admin' || pathname === '/user' ? styles['focus'] : ''}`}>
+                    <div className={`${styles['menu-item']} ${pathname === '/admin' || pathname === '/user' ? styles['focus'] : ''}`} onClick={() => navigateTo(pathname.split('/')[1] === 'admin' ? '/admin' : '/user')}>
                         <House />
                         Home
                     </div>
                     {
                         pathname.split('/')[1] === 'admin' && (
-                            <div className={`${styles['menu-item']} ${pathname === '/admin/history' ? styles['focus'] : ''}`}>
+                            <div className={`${styles['menu-item']} ${pathname === '/admin/history' ? styles['focus'] : ''}`} onClick={() => navigateTo('/admin/history')}>
                                 <Inbox />
                                 History
                             </div>
