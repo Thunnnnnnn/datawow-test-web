@@ -1,6 +1,6 @@
 import { create } from 'zustand'
-import { ConcertResponse } from "@/model/concert";
-import { getConcerts } from "@/service/concertService";
+import { ConcertResponse, ConcertCountResponse } from "@/model/concert";
+import { getConcerts, getConcertCount } from "@/service/concertService";
 import { IResponse } from "@/model/response";
 
 type State = {
@@ -9,6 +9,7 @@ type State = {
 
 type Actions = {
     getConcerts: () => Promise<IResponse<ConcertResponse[]>>;
+    getConcertCount: () => Promise<IResponse<ConcertCountResponse>>;
 }
 
 export const useConcertStore = create<State & Actions>((set) => ({
@@ -20,4 +21,10 @@ export const useConcertStore = create<State & Actions>((set) => ({
         }
         return response;
     },
+
+    getConcertCount: async () => {
+        const response = await getConcertCount();
+
+        return response;
+    }
 }))

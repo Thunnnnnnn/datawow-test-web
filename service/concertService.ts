@@ -1,4 +1,4 @@
-import { ConcertResponse, CreateConcertRequest, UpdateConcertRequest } from "@/model/concert";
+import { ConcertCountResponse, ConcertResponse, CreateConcertRequest, UpdateConcertRequest } from "@/model/concert";
 import { IResponse } from "@/model/response";
 import api from "./api";
 
@@ -48,6 +48,16 @@ export const deleteConcert = async (concertId: number): Promise<IResponse<{ mess
         return response.data;
     } catch (error) {
         console.error('Error deleting concert:', error);
+        throw error;
+    }
+};
+
+export const getConcertCount = async (): Promise<IResponse<ConcertCountResponse>> => {
+    try {
+        const response = await api.get('/concerts/count');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching concert count:', error);
         throw error;
     }
 };

@@ -1,12 +1,30 @@
 'use client';
 import styles from './AdminPage.module.css';
 import { Medal, User, CircleX, Menu } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import OverViewPage from './_component/OverViewPage';
 import CreatePage from './_component/CreatePage';
+import { useConcertStore } from "@/store/concertStore";
+import { ConcertCountResponse } from '@/model/concert';
 
 export default function AdminPage() {
     const [activeTab, setActiveTab] = useState('overview');
+    const [totalCount, setTotalCount] = useState<ConcertCountResponse>({
+        count: 0,
+        bookedCount: 0,
+        cancelCount: 0
+    });
+    const store = useConcertStore();
+    const fetchData = async () => {
+        const res = await store.getConcertCount();
+        if (res.status) {
+            setTotalCount(res.data);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     return (
         <div className="w-full">
@@ -14,17 +32,17 @@ export default function AdminPage() {
                 <div className={styles['card']} style={{ background: '#0070A4' }}>
                     <User className="w-10 h-10 text-white" />
                     <span className="text-white lg:text-2xl text-lg">Total of seats</span>
-                    <span className="text-white lg:text-6xl text-4xl">500</span>
+                    <span className="text-white lg:text-6xl text-4xl">{totalCount.count}</span>
                 </div>
                 <div className={styles['card']} style={{ background: '#00A58B' }}>
                     <Medal className="w-10 h-10 text-white" />
                     <span className="text-white lg:text-2xl text-lg">Reserve</span>
-                    <span className="text-white lg:text-6xl text-4xl">120</span>
+                    <span className="text-white lg:text-6xl text-4xl">{totalCount.bookedCount}</span>
                 </div>
                 <div className={styles['card']} style={{ background: '#F96464' }}>
                     <CircleX className="w-10 h-10 text-white" />
                     <span className="text-white lg:text-2xl text-lg">Cancel</span>
-                    <span className="text-white lg:text-6xl text-4xl">12</span>
+                    <span className="text-white lg:text-6xl text-4xl">{totalCount.cancelCount}</span>
                 </div>
             </div>
 
