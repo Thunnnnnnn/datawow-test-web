@@ -13,6 +13,17 @@ export default function OverViewPage() {
         fetchData();
     }, []);
 
+    const deleteConcert = (concertId: number) => async () => {
+        const res = await store.deleteConcert(concertId);
+        if (res.status) {
+            await store.getConcerts();
+            await store.getConcertCount();
+            alert('Delete concert successfully');
+        } else {
+            alert(res.message);
+        }
+    }
+
     return (
         <div className="flex flex-col gap-4">
             {
@@ -31,7 +42,7 @@ export default function OverViewPage() {
                                 </span>
                             </div>
 
-                            <button className={styles['delete-btn']}>
+                            <button className={styles['delete-btn']} onClick={deleteConcert(concert.id)}>
                                 <Trash2 />
                                 Delete
                             </button>
