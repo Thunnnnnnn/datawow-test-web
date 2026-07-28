@@ -2,7 +2,6 @@
 
 import styles from './layout.module.css';
 import SideBar from './_component/SideBar';
-import { usePathname } from 'next/navigation'
 
 
 export default function MainLayout({
@@ -10,7 +9,6 @@ export default function MainLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const pathname = usePathname();
 
     return (
         <div className="flex">
