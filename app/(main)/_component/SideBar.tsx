@@ -4,10 +4,14 @@ import styles from '../layout.module.css';
 import { House, Inbox, RefreshCw, LogOut } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
+import { jwtDecode } from "jwt-decode";
+import { JWTDecodeResponse } from '@/model/jwt';
+import { useEffect, useState } from 'react';
 
 export default function SideBar() {
-    const pathname = usePathname();
     const router = useRouter();
+    const pathname = usePathname();
+    const [role, setRole] = useState('')
     const navigateTo = (path: string) => {
         router.push(path);
     };
@@ -16,6 +20,11 @@ export default function SideBar() {
         document.cookie = 'token=; Max-Age=0; path=/;';
         router.push('/');
     }
+
+    useEffect(() => {
+        const payload = jwtDecode<JWTDecodeResponse>(document.cookie.replace(/(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/, "$1"));
+        setRole(payload.role);
+    }, []);
 
     return (
         <div className={styles['sidebar']}>
@@ -34,12 +43,16 @@ export default function SideBar() {
                             </div>
                         )
                     }
-                    <div className={styles['menu-item']}>
-                        <RefreshCw />
-                        {
-                            pathname.split('/')[1] === 'admin' ? 'Switch to user' : 'Switch to admin'
-                        }
-                    </div>
+                    {
+                        role === 'ADMIN' && (
+                            <div className={styles['menu-item']} onClick={() => navigateTo(pathname.split('/')[1] === 'admin' ? '/user' : '/admin')}>
+                                <RefreshCw />
+                                {
+                                    pathname.split('/')[1] === 'admin' ? 'Switch to user' : 'Switch to admin'
+                                }
+                            </div>
+                        )
+                    }
                 </div>
             </div>
 

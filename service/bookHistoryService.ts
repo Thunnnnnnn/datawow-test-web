@@ -22,9 +22,9 @@ export const getBookHistoryById = async (bookHistoryId: number): Promise<IRespon
     }
 };
 
-export const getBookHistoriesByUserId = async (userId: number): Promise<IResponse<BookHistoryResponse[]>> => {
+export const getBookHistoriesByUser = async (): Promise<IResponse<BookHistoryResponse[]>> => {
     try {
-        const response = await api.get(`/book-histories/user/${userId}`);
+        const response = await api.get(`/book-histories/user`);
         return response.data;
     } catch (error) {
         console.error('Error fetching book histories by user ID:', error);
@@ -32,9 +32,9 @@ export const getBookHistoriesByUserId = async (userId: number): Promise<IRespons
     }
 };
 
-export const createBookHistory = async (bookHistoryData: Partial<BookHistoryResponse>): Promise<IResponse<BookHistoryResponse>> => {
+export const createBookHistory = async ({ concertId }: { concertId: number }): Promise<IResponse<BookHistoryResponse>> => {
     try {
-        const response = await api.post('/book-histories', bookHistoryData);
+        const response = await api.post('/book-histories', { concertId });
         return response.data;
     } catch (error) {
         console.error('Error creating book history:', error);
