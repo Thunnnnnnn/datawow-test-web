@@ -4,8 +4,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { User, Lock, Eye, EyeOff } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
-import { jwtDecode } from 'jwt-decode';
-import { JWTDecodeResponse } from '@/model/jwt';
 
 export default function AdminLogin() {
     const store = useAuthStore();
@@ -13,6 +11,7 @@ export default function AdminLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<{ field: string; message: string }[]>([]);
 
     const navigateToCreateUserAccount = () => {
         router.push('/user/create-account');
@@ -25,13 +24,17 @@ export default function AdminLogin() {
         });
 
         if (res.status) {
-            if (res.data.token) {
-                document.cookie = `token=${res.data.token}; path=/`;
+            if (res.data!.token) {
+                document.cookie = `token=${res.data!.token}; path=/`;
                 alert("Login successful!");
                 router.push('/user');
             }
         } else {
-            alert("Login failed! Please check your credentials.");
+            if (res.code === 422) {
+                setErrorMessage(res.errors ?? []);
+            } else {
+                alert(res.message);
+            }
         }
     }
 
@@ -55,38 +58,52 @@ export default function AdminLogin() {
                     <span className={styles['login-text']}>Login</span>
                     <div className="flex flex-col gap-4">
                         <span className="md:text-xl text-base">Email</span>
-                        <div className="relative">
-                            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                        <div className="flex flex-col gap-1">
+                            <div className="relative">
+                                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
 
-                            <input
-                                placeholder="Enter your Email Address"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="pl-12 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 w-full"
-                            />
+                                <input
+                                    placeholder="Enter your Email Address"
+                                    value={email}
+                                    onChange={(e) => { setEmail(e.target.value); setErrorMessage([]); }}
+                                    className={`pl-12 pr-3 py-2 border ${errorMessage.find(err => err.field === 'email') ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 w-full`}
+                                />
+                            </div>
+                            {errorMessage.find(err => err.field === 'email') && (
+                                <span className="text-red-500 text-sm">
+                                    {errorMessage.find(err => err.field === 'email')?.message}
+                                </span>
+                            )}
                         </div>
 
                         <span className="md:text-xl text-base">Password</span>
-                        <div className="relative">
-                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                        <div className="flex flex-col gap-1">
+                            <div className="relative">
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
 
-                            <input
-                                placeholder="Enter your Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                type={passwordVisible ? "text" : "password"}
-                                className="pl-12 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 w-full"
-                            />
-                            {passwordVisible ? (
-                                <EyeOff
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
-                                    onClick={() => setPasswordVisible(false)}
+                                <input
+                                    placeholder="Enter your Password"
+                                    value={password}
+                                    onChange={(e) => { setPassword(e.target.value); setErrorMessage([]); }}
+                                    type={passwordVisible ? "text" : "password"}
+                                    className={`pl-12 pr-3 py-2 border ${errorMessage.find(err => err.field === 'password') ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 w-full`}
                                 />
-                            ) : (
-                                <Eye
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
-                                    onClick={() => setPasswordVisible(true)}
-                                />
+                                {passwordVisible ? (
+                                    <EyeOff
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                                        onClick={() => setPasswordVisible(false)}
+                                    />
+                                ) : (
+                                    <Eye
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                                        onClick={() => setPasswordVisible(true)}
+                                    />
+                                )}
+                            </div>
+                            {errorMessage.find(err => err.field === 'password') && (
+                                <span className="text-red-500 text-sm">
+                                    {errorMessage.find(err => err.field === 'password')?.message}
+                                </span>
                             )}
                         </div>
                         <button className={styles['login-button']} onClick={login}>Login as User</button>
