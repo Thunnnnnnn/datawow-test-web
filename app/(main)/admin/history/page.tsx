@@ -1,18 +1,19 @@
 'use client';
 import styles from './HistoryPage.module.css';
+import { useEffect } from 'react';
+import { useLogStore } from '@/store/logStore';
+import { toThaiDateTime } from '@/utils/date';
 
 export default function AdminHistoryPage() {
-    const toThaiDateTime = (dateTime: string) => {
-        const date = new Date(dateTime);
-        return date.toLocaleDateString('th-TH', {
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric',
-        });
+    const store = useLogStore();
+
+    const fetchLogs = async () => {
+        await store.getLogs();
     }
+
+    useEffect(() => {
+        fetchLogs();
+    }, []);
 
     return (
         <div className="w-full">
@@ -26,12 +27,16 @@ export default function AdminHistoryPage() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>{toThaiDateTime('2023-08-01 10:00:00')}</td>
-                        <td>user1</td>
-                        <td>Concert Name 1</td>
-                        <td>Reserve</td>
-                    </tr>
+                    {
+                        store.logs.map((log) => (
+                            <tr key={log.id}>
+                                <td>{toThaiDateTime(log.createdAt.toString())}</td>
+                                <td>{log.user.name}</td>
+                                <td>{log.concert.name}</td>
+                                <td>{log.action === 'BOOKED' ? 'RESERVE' : log.action}</td>
+                            </tr>
+                        ))
+                    }
                 </tbody>
             </table>
         </div>
