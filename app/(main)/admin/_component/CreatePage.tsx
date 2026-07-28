@@ -2,11 +2,29 @@
 import styles from './component.module.css';
 import { Save } from 'lucide-react';
 import { useState } from 'react';
+import { useConcertStore } from '@/store/concertStore';
 
 export default function CreatePage() {
     const [concertName, setConcertName] = useState('');
     const [totalSeats, setTotalSeats] = useState(0);
     const [description, setDescription] = useState('');
+    const store = useConcertStore();
+
+    const createConcert = async () => {
+        const res = await store.createConcert({
+            name: concertName,
+            limit: totalSeats,
+            detail: description,
+        });
+
+        if(res.status) {
+            await store.getConcertCount();
+            alert('Create concert successfully');
+            setConcertName('');
+            setTotalSeats(0);
+            setDescription('');
+        }
+    }
 
     return (
         <div className="flex">
@@ -52,7 +70,7 @@ export default function CreatePage() {
                     <div>
                     </div>
 
-                    <button className={styles['save-btn']}>
+                    <button className={styles['save-btn']} onClick={createConcert}>
                         <Save />
                         Save
                     </button>
