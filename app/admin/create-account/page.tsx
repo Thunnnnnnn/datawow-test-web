@@ -3,10 +3,10 @@ import styles from '../_styles/AdminPage.module.css';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { User, Lock, Eye, EyeOff } from 'lucide-react';
-
-
+import { useUserStore } from '@/store/userStore';
 
 export default function CreateAdminAccount() {
+    const store = useUserStore();
     const router = useRouter();
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
@@ -18,6 +18,25 @@ export default function CreateAdminAccount() {
     const navigateToLogin = () => {
         router.push('/admin/login');
     };
+
+    const createUser = async () => {
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+
+        const res = await store.createUser({
+            name: fullName,
+            email: email,
+            password: password,
+            role: "ADMIN"
+        });
+
+        if (res.status) {
+            alert("Account created successfully!");
+            navigateToLogin();
+        }
+    }
 
     return (
         <div className="flex flex-row">
@@ -107,7 +126,7 @@ export default function CreateAdminAccount() {
                                 />
                             )}
                         </div>
-                        <button className={styles['login-button']}>Create an account</button>
+                        <button className={styles['login-button']} onClick={createUser}>Create an account</button>
 
 
                         <div className={styles['dont-have-account']}>
