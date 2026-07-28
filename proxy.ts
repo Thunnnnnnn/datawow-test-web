@@ -9,6 +9,8 @@ export function proxy(request: NextRequest) {
         '/',
         '/user/login',
         '/admin/login',
+        '/user/create-account',
+        '/admin/create-account'
     ];
 
     if (publicRoutes.includes(pathname)) {
