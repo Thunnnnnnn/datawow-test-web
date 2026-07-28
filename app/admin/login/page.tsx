@@ -3,11 +3,13 @@ import styles from '../_styles/AdminPage.module.css';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { User, Lock, Eye, EyeOff } from 'lucide-react';
-
-
+import { useAuthStore } from "@/store/authStore";
+import { jwtDecode } from "jwt-decode";
+import { JWTDecodeResponse } from '@/model/jwt';
 
 export default function AdminLogin() {
     const router = useRouter();
+    const store = useAuthStore();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -15,6 +17,29 @@ export default function AdminLogin() {
     const navigateToCreateAdminAccount = () => {
         router.push('/admin/create-account');
     };
+
+    const login = async () => {
+        const res = await store.login({
+            email: email,
+            password: password
+        });
+
+        if (res.status) {
+            if (res.data.token) {
+                const payload = jwtDecode<JWTDecodeResponse>(res.data.token);
+                if (payload.role === "ADMIN") {
+                    document.cookie = `token=${res.data.token}; path=/`;
+                    alert("Login successful!");
+                    router.push('/admin');
+                } else {
+                    alert("You are not authorized to access the admin panel.");
+                }
+
+            }
+        } else {
+            alert("Login failed! Please check your credentials.");
+        }
+    }
 
     return (
         <div className="flex flex-row">
@@ -70,7 +95,7 @@ export default function AdminLogin() {
                                 />
                             )}
                         </div>
-                        <button className={styles['login-button']}>Login as Administrator</button>
+                        <button className={styles['login-button']} onClick={login}>Login as Administrator</button>
 
 
                         <div className={styles['dont-have-account']}>

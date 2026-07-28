@@ -3,10 +3,12 @@ import styles from '../_styles/UserPage.module.css';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { User, Lock, Eye, EyeOff } from 'lucide-react';
-
-
+import { useAuthStore } from '@/store/authStore';
+import { jwtDecode } from 'jwt-decode';
+import { JWTDecodeResponse } from '@/model/jwt';
 
 export default function AdminLogin() {
+    const store = useAuthStore();
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -15,6 +17,23 @@ export default function AdminLogin() {
     const navigateToCreateUserAccount = () => {
         router.push('/user/create-account');
     };
+
+    const login = async () => {
+        const res = await store.login({
+            email: email,
+            password: password
+        });
+
+        if (res.status) {
+            if (res.data.token) {
+                document.cookie = `token=${res.data.token}; path=/`;
+                alert("Login successful!");
+                router.push('/user');
+            }
+        } else {
+            alert("Login failed! Please check your credentials.");
+        }
+    }
 
     return (
         <div className="flex flex-row">
@@ -70,7 +89,7 @@ export default function AdminLogin() {
                                 />
                             )}
                         </div>
-                        <button className={styles['login-button']}>Login as User</button>
+                        <button className={styles['login-button']} onClick={login}>Login as User</button>
 
 
                         <div className={styles['dont-have-account']}>

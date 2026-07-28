@@ -12,6 +12,11 @@ export default function SideBar() {
         router.push(path);
     };
 
+    const logout = () => {
+        document.cookie = 'token=; Max-Age=0; path=/;';
+        router.push('/');
+    }
+
     return (
         <div className={styles['sidebar']}>
             <div className="flex flex-col gap-4">
@@ -38,7 +43,7 @@ export default function SideBar() {
                 </div>
             </div>
 
-            <div className="flex flex-col gap-4 mb-8">
+            <div className="flex flex-col gap-4 mb-8" onClick={logout}>
                 <span className="ms-3 my-8 flex gap-2 items-center cursor-pointer" style={{ fontSize: '24px' }}>
                     <LogOut />
                     Logout
