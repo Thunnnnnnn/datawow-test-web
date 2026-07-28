@@ -1,6 +1,7 @@
-export interface IResponse<T> {
+export interface IResponse<T, E = any> {
     status: boolean;
     code: number;
-    data: T;
     message?: string;
-};
+    data?: T;
+    errors?: E;
+}
