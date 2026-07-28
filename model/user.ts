@@ -12,6 +12,7 @@ export interface CreateUserRequest {
     email: string;
     password: string;
     role: 'USER' | 'ADMIN';
+    confirmPassword: string;
 }
 
 export interface UpdateUserRequest {
