@@ -5,8 +5,6 @@ import { useRouter } from 'next/navigation';
 import { User, Lock, Eye, EyeOff } from 'lucide-react';
 import { useUserStore } from '@/store/userStore';
 
-
-
 export default function CreateUserAccount() {
     const store = useUserStore();
     const router = useRouter();
