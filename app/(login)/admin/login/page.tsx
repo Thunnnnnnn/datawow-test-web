@@ -6,6 +6,7 @@ import { User, Lock, Eye, EyeOff } from 'lucide-react';
 import { useAuthStore } from "@/store/authStore";
 import { jwtDecode } from "jwt-decode";
 import { JWTDecodeResponse } from '@/model/jwt';
+import { toast } from '@/utils/toast';
 
 export default function AdminLogin() {
     const router = useRouter();
@@ -30,10 +31,18 @@ export default function AdminLogin() {
                 const payload = jwtDecode<JWTDecodeResponse>(res.data!.token);
                 if (payload.role === "ADMIN") {
                     document.cookie = `token=${res.data!.token}; path=/`;
-                    alert("Login successful!");
-                    router.push('/admin');
+                    toast.fire({
+                        icon: 'success',
+                        title: 'Login successful!',
+                    });
+                    setTimeout(() => {
+                        router.push('/admin');
+                    }, 3000)
                 } else {
-                    alert("You are not authorized to access the admin panel.");
+                    toast.fire({
+                        icon: 'error',
+                        title: 'You are not authorized to access the admin panel.',
+                    });
                 }
 
             }
@@ -41,7 +50,10 @@ export default function AdminLogin() {
             if (res.code === 422) {
                 setErrorMessage(res.errors ?? []);
             } else {
-                alert(res.message);
+                toast.fire({
+                    icon: 'error',
+                    title: res.message,
+                });
             }
         }
     }

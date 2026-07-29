@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { User, Lock, Eye, EyeOff } from 'lucide-react';
 import { useUserStore } from '@/store/userStore';
+import { toast } from '@/utils/toast';
 
 export default function CreateAdminAccount() {
     const store = useUserStore();
@@ -22,7 +23,10 @@ export default function CreateAdminAccount() {
 
     const createUser = async () => {
         if (password !== confirmPassword) {
-            alert("Passwords do not match!");
+            toast.fire({
+                icon: 'error',
+                title: 'Password and Confirm Password do not match!',
+            });
             return;
         }
 
@@ -35,13 +39,19 @@ export default function CreateAdminAccount() {
         });
 
         if (res.status) {
-            alert("Account created successfully!");
+            toast.fire({
+                icon: 'success',
+                title: 'Account created successfully!',
+            })
             navigateToLogin();
         } else {
             if (res.code === 422) {
                 setErrorMessage(res.errors ?? []);
             } else {
-                alert(res.message);
+                toast.fire({
+                    icon: 'error',
+                    title: res.message,
+                })
             }
         }
     }

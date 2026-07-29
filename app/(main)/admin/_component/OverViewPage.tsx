@@ -5,22 +5,11 @@ import { useConcertStore } from '@/store/concertStore';
 import { useEffect } from 'react';
 import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
+import { toast } from '@/utils/toast';
 
 export default function OverViewPage() {
     const store = useConcertStore();
     const swal = withReactContent(Swal)
-    const toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        iconColor: 'white',
-        customClass: {
-            popup: 'colored-toast',
-        },
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        showCloseButton: true,
-    })
 
     const fetchData = async () => {
         await store.getConcerts();

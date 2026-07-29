@@ -4,6 +4,7 @@ import { User } from 'lucide-react';
 import { useConcertStore } from "@/store/concertStore";
 import { useBookHistoryStore } from "@/store/bookHistoryStore";
 import { useEffect } from "react";
+import { toast } from '@/utils/toast';
 
 export default function UserPage() {
     const store = useConcertStore();
@@ -25,16 +26,32 @@ export default function UserPage() {
         if (find) {
             const res = await bookHistoryStore.updateBookHistoryStatus(find.id, 'RESERVE');
             if (res.status) {
-                alert('Concert reserved successfully!');
+                toast.fire({
+                    icon: 'success',
+                    title: 'Concert reserved successfully!',
+                });
                 await fetchData();
+            } else {
+                toast.fire({
+                    icon: 'error',
+                    title: res.message,
+                });
             }
             return;
         } else {
             const res = await bookHistoryStore.createBookHistory(concertId);
-    
+
             if (res.status) {
-                alert('Concert reserved successfully!');
+                toast.fire({
+                    icon: 'success',
+                    title: 'Concert reserved successfully!',
+                });
                 await fetchData();
+            } else {
+                toast.fire({
+                    icon: 'error',
+                    title: res.message,
+                });
             }
         }
     }
@@ -44,8 +61,16 @@ export default function UserPage() {
         if (bookHistory) {
             const res = await bookHistoryStore.updateBookHistoryStatus(bookHistory.id, 'CANCEL');
             if (res.status) {
-                alert('Reservation canceled successfully!');
+                toast.fire({
+                    icon: 'success',
+                    title: 'Reservation canceled successfully!',
+                });
                 await fetchData();
+            } else {
+                toast.fire({
+                    icon: 'error',
+                    title: res.message,
+                });
             }
         }
     }

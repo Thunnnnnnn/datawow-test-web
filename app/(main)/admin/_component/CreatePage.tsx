@@ -3,6 +3,7 @@ import styles from './component.module.css';
 import { Save } from 'lucide-react';
 import { useState } from 'react';
 import { useConcertStore } from '@/store/concertStore';
+import { toast } from '@/utils/toast';
 
 export default function CreatePage() {
     const [concertName, setConcertName] = useState('');
@@ -20,7 +21,10 @@ export default function CreatePage() {
 
         if (res.status) {
             await store.getConcertCount();
-            alert('Create concert successfully');
+            toast.fire({
+                icon: 'success',
+                title: 'Create concert successfully',
+            });
             setConcertName('');
             setTotalSeats(0);
             setDescription('');
@@ -28,7 +32,10 @@ export default function CreatePage() {
             if (res.code === 422) {
                 setErrorMessage(res.errors ?? []);
             } else {
-                alert(res.message);
+                toast.fire({
+                    icon: 'error',
+                    title: res.message,
+                });
             }
         }
     }

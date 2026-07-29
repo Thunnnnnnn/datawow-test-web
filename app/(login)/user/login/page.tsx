@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { User, Lock, Eye, EyeOff } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
+import { toast } from '@/utils/toast';
 
 export default function AdminLogin() {
     const store = useAuthStore();
@@ -26,14 +27,22 @@ export default function AdminLogin() {
         if (res.status) {
             if (res.data!.token) {
                 document.cookie = `token=${res.data!.token}; path=/`;
-                alert("Login successful!");
-                router.push('/user');
+                toast.fire({
+                    icon: 'success',
+                    title: 'Login successful!',
+                });
+                setTimeout(() => {
+                    router.push('/user');
+                }, 3000)
             }
         } else {
             if (res.code === 422) {
                 setErrorMessage(res.errors ?? []);
             } else {
-                alert(res.message);
+                toast.fire({
+                    icon: 'error',
+                    title: res.message,
+                });
             }
         }
     }
