@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import OverViewPage from './_component/OverViewPage';
 import CreatePage from './_component/CreatePage';
 import { useConcertStore } from "@/store/concertStore";
-import { ConcertCountResponse } from '@/model/concert';
 
 export default function AdminPage() {
     const [activeTab, setActiveTab] = useState('overview');
