@@ -49,12 +49,21 @@ docker compose down
 
 # Library List
 
-#### 1. sweetalert2
+#### - Nextjs
 
-#### 2. tailwindCSS
+#### - TailwindCSS
 
-#### 3. zustand
+#### - Axios
 
-#### 4. lucide-react
+#### - Zustand
 
-#### 5. jwt-decode
+#### - Lucide-react
+
+#### - Jwt-decode
+
+#### - Sweetalert2
+
+
+
+
+
