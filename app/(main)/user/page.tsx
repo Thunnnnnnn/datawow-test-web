@@ -97,7 +97,7 @@ export default function UserPage() {
                                     <button className={styles['delete-btn']} onClick={cancelReservation(concert.id)}>
                                         Cancel
                                     </button> :
-                                    <button className={styles['save-btn']} onClick={reserveConcert(concert.id)}>
+                                    <button className={styles['save-btn']} onClick={reserveConcert(concert.id)} disabled={concert.limit - concert.bookedCount <= 0}>
                                         Reserve
                                     </button>
                             }
