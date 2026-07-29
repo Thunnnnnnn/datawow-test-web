@@ -16,7 +16,7 @@ export default function AdminHistoryPage() {
     }, []);
 
     return (
-        <div className="w-full">
+        <div style={{ overflowX: 'auto', overflowY: 'auto' }} className="w-full">
             <table className={styles['table-style']}>
                 <thead>
                     <tr>
