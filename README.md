@@ -1,9 +1,9 @@
 # How to install and run this program
 
 ### Set up the environment
-```text
-Create a `.env` file based on `.env.example`.
-```
+
+#### Create a `.env` file based on `.env.example`.
+
 
 ### Start Services
 ```bash
