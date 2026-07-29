@@ -15,6 +15,11 @@ export async function handleResponse<T, E = any>(
         };
     } catch (err) {
         const error = err as AxiosError<IResponse<T, E>>;
+        if(error.response?.status === 401) {
+            // Handle unauthorized error (e.g., redirect to login page)
+            window.location.href = '/';
+            document.cookie = 'token=;'
+        }
 
         return {
             status: false,

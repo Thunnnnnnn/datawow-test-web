@@ -54,10 +54,6 @@ export default function AdminPage() {
                     <CreatePage />
                 )}
             </div>
-
-            <button className={styles['menu-button']}>
-                <Menu className="w-6 h-6" />
-            </button>
         </div>
     );
 }
