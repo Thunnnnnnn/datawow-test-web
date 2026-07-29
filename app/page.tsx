@@ -1,6 +1,6 @@
 'use client';
 
-import styles from './MainPage.module.css';
+import styles from './mainpage.module.css';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
