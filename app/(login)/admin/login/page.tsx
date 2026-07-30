@@ -34,10 +34,9 @@ export default function AdminLogin() {
                     toast.fire({
                         icon: 'success',
                         title: 'Login successful!',
-                    });
-                    setTimeout(() => {
+                    }).then(() => {
                         router.push('/admin');
-                    }, 3000)
+                    });
                 } else {
                     toast.fire({
                         icon: 'error',

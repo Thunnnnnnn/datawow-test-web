@@ -30,10 +30,10 @@ export default function AdminLogin() {
                 toast.fire({
                     icon: 'success',
                     title: 'Login successful!',
-                });
-                setTimeout(() => {
+                }).then(() => {
                     router.push('/user');
-                }, 3000)
+                });
+
             }
         } else {
             if (res.code === 422) {
