@@ -32,7 +32,7 @@ export default function OverViewPage() {
                     <span class="${styles['title']}">Are you sure to delete? <br/>"${name}"</span>
                     <div class="${styles['modal-actions']}">
                         <button id="cancel" class="${styles['cancel-btn']}">Cancel</button>
-                        <button id="confirm" class="${styles['confirm-btn']}">Delete</button>
+                        <button id="confirm" class="${styles['confirm-delete-btn']}">Delete</button>
                     </div>
                 </div>
             `,
